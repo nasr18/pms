@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 
 import * as productModel from './product.model';
+import findDuplicateProducts from './product.middleware';
 
 export const productRouter = express.Router();
 
@@ -19,7 +20,7 @@ productRouter.route('/')
       return res.status(500).json({ msg: err.message });
     }
   })
-  .post(async (req: Request, res: Response) => {
+  .post(findDuplicateProducts, async (req: Request, res: Response) => {
     console.log('post', req.body);
     try {
       const product = await productModel.create(req.body);
